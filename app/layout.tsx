@@ -23,7 +23,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
   
         <html lang="en">
           <body className={`antialiased ${geistSans.variable}`}>
@@ -35,6 +34,5 @@ export default function RootLayout({
             <Footer /> {/* Pie de página */}
           </body>
         </html>
-    </ClerkProvider>
   );
 }

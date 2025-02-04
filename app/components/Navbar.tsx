@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+
 
 const Header = () => {
   const pathname = usePathname();
@@ -51,18 +51,12 @@ const Header = () => {
         {/* Botones de Login y Contáctanos */}
         <div className="flex items-center space-x-4">
           {/* Botón de Login con Clerk */}
-          <SignedOut>
-            <SignInButton>
+          
               <button className="bg-blue-400 text-white font-semibold px-6 py-2 rounded-full shadow-lg shadow-gray-700 hover:shadow-black hover:bg-[#27ae60] hover:-translate-y-1 transition transform duration-300 ease-out cursor-pointer active:translate-y-1">
                 Login
               </button>
-            </SignInButton>
-          </SignedOut>
+            
 
-          {/* Menú de usuario cuando está autenticado */}
-          <SignedIn>
-            <UserButton afterSignOutUrl="/" />
-          </SignedIn>
 
           {/* Botón de Contáctanos */}
           <Link href="/Contact" passHref>
