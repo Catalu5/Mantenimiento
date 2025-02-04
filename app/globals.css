@@ -1,21 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Animaciones */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Estilos adicionales */
+.bg-green-gradient {
+  background: linear-gradient(to right, #a3e635, #86efac);
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.bg-blue-gradient {
+  background: linear-gradient(to right, #7dd3fc, #38bdf8);
+}
+.animate-float {
+  animation: float 2s infinite ease-in-out;
 }
