@@ -12,8 +12,8 @@ const geistSans = Geist({
 
 
 export const metadata: Metadata = {
-  title: "Driving School",
-  description: "Learn road skills for life",
+  title: "InverCloud",
+  description: "Hacemos las soluciones que necesita tu invernadero",
 };
 
 export default function RootLayout({
