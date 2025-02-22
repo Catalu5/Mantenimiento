@@ -21,7 +21,7 @@ const AdminPage = () => {
       .then((res) => res.json())
       .then(setUsers)
       .catch(() => console.error("Error cargando usuarios"));
-  }, []);
+  }, [router]);
 
   const changeRole = async (email: string, newRole: string) => {
     const token = localStorage.getItem("token");
