@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Mission } from "./Mission";
 import { Vision } from "./Vision";
+import Team from "./Team";
 
 
 export default function About() {
@@ -28,7 +29,7 @@ export default function About() {
             alt="Invernadero Inteligente"
             width={300}
             height={100}
-            className="rounded-lg shadow-lg animate-float"
+            className="rounded-lg animate-float"
           />
         </div>
       </div> 
@@ -38,6 +39,9 @@ export default function About() {
         <Mission />
         <Vision />
       </div>
+      <div className="max-w-6xl w-full mt-16 gap-12">
+          <Team />
+        </div>
     </section>
   );
 }

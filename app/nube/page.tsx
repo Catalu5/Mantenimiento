@@ -17,7 +17,7 @@ export default function Nubepage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-500 to-blue-400 p-10">
       <div className="text-center text-white">
-        <h2 className="text-4xl font-bold">Análisis en la Nube</h2>
+        <h2 className="text-4xl font-bold mt-32">Análisis en la Nube</h2>
         <p className="text-lg mt-2">
           Visualiza en tiempo real los datos de tus sensores y mejora la eficiencia de tu invernadero.
         </p>

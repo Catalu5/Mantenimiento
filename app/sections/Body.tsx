@@ -13,7 +13,7 @@ export default function Body() {
             {/* Título */}
             <div className="text-left">
               <h1 className="text-6xl below700:text-xl font-bold mb-5 lg:mb-8 -mt-20">
-                ¿Qué es un <span className="text-blue-600">invernadero inteligente</span>?
+                ¿Qué es un <span className="text-green-500">invernadero </span><span className="text-blue-600">inteligente</span>?
               </h1>
             </div>
             
