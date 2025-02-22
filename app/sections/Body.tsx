@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 
+
 export default function Body() {
   return (
     <section className="bg-white text-black relative justify-center items-center h-screen overflow-hidden">
       {/* Contenedor principal */}
-      <div className="container pt-32 lg:pt-56 lg:py-16 px-4 md:mx-28 items-center justify-center relative h-full">
+      <div className="container pt-32 lg:pt-56 lg:py-16 px-4 md:mx-28 items-center justify-center relative h-full -mt-28">
         <div className="flex flex-col lg:flex-row items-center justify-between h-full">
           {/* Contenedor del título y subtítulo */}
           <div className="lg:w-1/2 lg:text-left text-center">
@@ -43,32 +44,7 @@ export default function Body() {
         </div>
       </div>
 
-      {/* Sección con diseño estructurado */}
-      <section className="bg-white py-20 px-6 md:px-20 lg:px-40 text-gray-900 relative overflow-hidden">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Texto descriptivo */}
-          <div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 border-b-4 border-blue-600 inline-block">¿Qué es un invernadero inteligente?</h2>
-            <p className="text-lg text-gray-700 mb-6">
-              Un invernadero inteligente es un <span className="font-bold">sistema avanzado</span> que emplea sensores IoT y machine learning para optimizar el control climático, asegurando un crecimiento eficiente de los cultivos.
-            </p>
-            <p className="text-lg text-gray-700">
-              Mediante la recolección de datos en tiempo real, se ajustan automáticamente los parámetros de humedad, temperatura y riego,
-              maximizando la productividad y reduciendo el consumo de recursos.
-            </p>
-          </div>
-          {/* Imagen */}
-          <div className="flex justify-center">
-            <Image
-              src="/invernadero-inteligente.png"
-              alt="Invernadero Inteligente"
-              className="rounded-lg shadow-lg"
-              width={500}
-              height={300}
-            />
-          </div>
-        </div>
-      </section>
+      
     </section>
   );
 }

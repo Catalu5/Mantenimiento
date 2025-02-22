@@ -36,8 +36,8 @@ const Header = () => {
             href={item.href}
             className={`font-medium transition ${
               pathname === item.href
-                ? "text-green-500 font-bold hover:text-blue-400"
-                : "text-green-500 hover:text-blue-400"
+                ? "text-blue-400 font-bold hover:text-blue-400"
+                : "text-green-500 hover:text-green-500"
             }`}
           >
             {item.name}
