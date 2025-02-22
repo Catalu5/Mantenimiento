@@ -14,7 +14,11 @@ export async function GET(req: Request) {
     }
 
     const token = authHeader.split(" ")[1];
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    interface DecodedToken {
+      role: string;
+    }
+
+    const decoded: DecodedToken = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken;
 
     if (decoded.role !== "admin") {
       return NextResponse.json({ error: "Permiso denegado" }, { status: 403 });

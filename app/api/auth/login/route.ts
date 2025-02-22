@@ -30,6 +30,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ token, role: user.role, message: "Login exitoso" }, { status: 200 });
 
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Error en el login" }, { status: 500 });
   }
 }

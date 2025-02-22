@@ -17,7 +17,7 @@ const Dashboard = () => {
     }
 
     setUser({ email: email || "Usuario", role: role || "user" });
-  }, []);
+  }, [router]);
 
   const logout = () => {
     localStorage.removeItem("token");
