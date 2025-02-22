@@ -47,12 +47,14 @@ const Header = () => {
 
       {/* Botones */}
       <div className="flex items-center space-x-4">
-        <button className="bg-blue-400 text-white font-semibold px-6 py-2 rounded-full shadow-lg  shadow-gray-700 hover:shadow-black hover:bg-green-500 hover:-translate-y-1 transition transform duration-300 ease-out cursor-pointer active:translate-y-1">
-          Login
-        </button>
+        <Link href="/auth">
+          <button className="bg-blue-400 text-white font-semibold px-6 py-2 rounded-full shadow-lg shadow-gray-700 hover:shadow-black hover:bg-green-500 hover:-translate-y-1 transition transform duration-300 ease-out cursor-pointer active:translate-y-1">
+            Login
+          </button>
+        </Link>
 
         <Link href="/contact">
-          <button className="bg-green-500 text-white font-semibold px-6 py-2 rounded-full shadow-lg  shadow-gray-700 hover:shadow-black hover:bg-blue-400 hover:-translate-y-1 transition transform duration-300 ease-out cursor-pointer active:translate-y-1">
+          <button className="bg-green-500 text-white font-semibold px-6 py-2 rounded-full shadow-lg shadow-gray-700 hover:shadow-black hover:bg-blue-400 hover:-translate-y-1 transition transform duration-300 ease-out cursor-pointer active:translate-y-1">
             Contáctanos
           </button>
         </Link>
