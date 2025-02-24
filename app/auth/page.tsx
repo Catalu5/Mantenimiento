@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
+import { AuthContext } from "../context/AuthContext"; // Importamos el contexto de autenticación
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -8,27 +9,36 @@ const AuthPage = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const router = useRouter();
+  const { login } = useContext(AuthContext)!; // Accedemos a la función de login del contexto
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
 
-    const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
-    if (res.ok) {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.role);
-
-      // Redirige según el rol
-      router.push(data.role === "admin" ? "/admin" : "/dashboard");
-    } else {
-      setMessage(data.message || data.error);
+      const data = await res.json();
+      if (res.ok) {
+        login(data.token, data.profileImage); // Actualiza el estado de autenticación global
+       
+        // Redirigir según el rol
+        if (data.role === "user") {
+          router.push("/nube");
+        } else {
+          router.push("/admin");
+        }
+      } else {
+        setMessage(data.message || data.error);
+      }
+    } catch (error) {
+      console.error("Error en autenticación:", error);
+      setMessage("Ocurrió un error inesperado. Inténtalo de nuevo.");
     }
   };
 
@@ -68,16 +78,6 @@ const AuthPage = () => {
         </form>
 
         {message && <p className="text-center text-red-500 mt-4">{message}</p>}
-
-        <p className="mt-4 text-center text-sm text-gray-600">
-          {isLogin ? "¿No tienes cuenta?" : "¿Ya tienes cuenta?"}{" "}
-          <span
-            onClick={() => setIsLogin(!isLogin)}
-            className="text-blue-500 font-semibold cursor-pointer hover:underline"
-          >
-            {isLogin ? "Regístrate" : "Inicia sesión"}
-          </span>
-        </p>
       </div>
     </div>
   );
