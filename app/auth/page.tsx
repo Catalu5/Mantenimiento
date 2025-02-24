@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { AuthContext } from "../context/AuthContext"; // Importamos el contexto de autenticación
 
 const AuthPage = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(true); // Estado para alternar entre login y registro
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -25,8 +25,8 @@ const AuthPage = () => {
 
       const data = await res.json();
       if (res.ok) {
-        login(data.token, data.profileImage); // Actualiza el estado de autenticación global
-       
+        login(data.token, data.user); // Guardar autenticación global
+        
         // Redirigir según el rol
         if (data.role === "user") {
           router.push("/nube");
@@ -48,6 +48,8 @@ const AuthPage = () => {
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           {isLogin ? "Iniciar Sesión" : "Registrarse"}
         </h2>
+        
+        {/* 📌 Formulario */}
         <form onSubmit={handleAuth} className="space-y-4">
           <div>
             <label className="block text-gray-600 text-sm font-semibold mb-1">Correo Electrónico</label>
@@ -77,7 +79,16 @@ const AuthPage = () => {
           </button>
         </form>
 
+        {/* 📌 Mensaje de error */}
         {message && <p className="text-center text-red-500 mt-4">{message}</p>}
+
+        {/* 📌 Botón para alternar entre login y registro */}
+        <button
+          onClick={() => setIsLogin(!isLogin)}
+          className="mt-4 text-blue-500 text-center w-full hover:underline"
+        >
+          {isLogin ? "¿No tienes cuenta? Regístrate" : "¿Ya tienes cuenta? Inicia sesión"}
+        </button>
       </div>
     </div>
   );

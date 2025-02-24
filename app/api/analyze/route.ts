@@ -41,6 +41,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ analysis });
   } catch (error) {
+    console.error("Error en la API de análisis:", error); // ✅ Registra el error en la consola
     return NextResponse.json({ error: "Error generando el análisis" }, { status: 500 });
   }
 }

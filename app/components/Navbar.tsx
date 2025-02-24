@@ -1,75 +1,17 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { AuthContext } from "../context/AuthContext";
 import { Menu, X, Settings, LogOut } from "lucide-react";
 
-declare global {
-  interface Window {
-    cloudinary: any;
-  }
-}
-
 const Header = () => {
   const pathname = usePathname();
   const router = useRouter(); 
-  const { isAuthenticated, user, logout, updateProfileImage } = useContext(AuthContext)!;
-  const [profileImage, setProfileImage] = useState<string | null>(user?.profileImage || "/default-avatar.png");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { isAuthenticated, user, logout } = useContext(AuthContext)!;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-
-  // ✅ Cargar la imagen desde MongoDB al iniciar sesión
-
-  useEffect(() => {
-    console.log("📌 Estado actual del usuario:", user);
-  }, [user]);
-  
-  const handleImageUpload = async (file: File) => {
-    if (!file) return console.error("No se seleccionó ninguna imagen");
-  
-    if (!user || !user.email) {
-      console.error("🚨 Error: El usuario no está autenticado o el email no está disponible.");
-      return;
-    }
-  
-    console.log("✅ Usuario autenticado:", user.email);
-  
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!);
-  
-    try {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        { method: "POST", body: formData }
-      );
-  
-      const data = await response.json();
-      if (!response.ok) return console.error("🚨 Error en la subida:", data);
-  
-      // ✅ Guardar la imagen en la base de datos
-      const updateResponse = await fetch("/api/updateProfileImage", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Authorization": user.email 
-        },
-        body: JSON.stringify({ imageUrl: data.secure_url }),
-      });
-  
-      const updateData = await updateResponse.json();
-      if (!updateResponse.ok) return console.error("🚨 Error al actualizar la imagen:", updateData);
-  
-      console.log("✅ Imagen de perfil actualizada:", data.secure_url);
-      updateProfileImage(data.secure_url); // ✅ Actualizar estado global
-    } catch (error) {
-      console.error("🚨 Error al subir la imagen:", error);
-    }
-  };
-  
 
   return (
     <header className="fixed top-8 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[70%] z-40 bg-white shadow-lg rounded-full px-6 py-3 flex items-center justify-between">
@@ -78,7 +20,6 @@ const Header = () => {
         <Link href="/">
           <Image src="/Logo.jpg" alt="Logo" width={60} height={60} className="object-contain cursor-pointer" priority />
         </Link>
-        <input type="file" id="fileInput" style={{ display: "none" }} onChange={(e) => e.target.files && handleImageUpload(e.target.files[0])} />
       </div>
 
       {/* Navegación en escritorio */}
@@ -127,7 +68,7 @@ const Header = () => {
         {isAuthenticated ? (
           <div className="relative">
             <Image 
-              src={profileImage || "/default-avatar.png"} 
+              src={user?.profileImage || "/default-avatar.png"} 
               alt="Perfil" 
               width={40} 
               height={40} 

@@ -1,7 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import Modal from "./Modal"; // Componente para mostrar el análisis final
 
 type GreenhouseDataProps = {
   greenhouseData: {
@@ -24,33 +23,33 @@ const GreenhouseData = ({ greenhouseData }: GreenhouseDataProps) => {
 
   const [isSimulating, setIsSimulating] = useState(false);
   const [analysis, setAnalysis] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado del modal
   const [plantImage, setPlantImage] = useState("/healthy-plant.svg"); // Imagen inicial
 
-  // Función para generar valores aleatorios realistas
+  // ✅ Generar valores aleatorios realistas
   const generateRandomValue = (currentValue: number, min: number, max: number): number => {
-    let variation = (Math.random() * 2 - 1) * 1.5; // Variación pequeña
-    let newValue = Math.min(Math.max(currentValue + variation, min), max);
+    const variation = (Math.random() * 2 - 1) * 1.5;
+    const newValue = Math.min(Math.max(currentValue + variation, min), max);
     return parseFloat(newValue.toFixed(1));
   };
 
-  // Evaluar estado de la planta en tiempo real
+  // ✅ Evaluar salud de la planta en tiempo real
   const evaluatePlantHealth = (temperature: number, humidity: number, acidity: number) => {
-    const isHealthy = temperature >= 18 && temperature <= 30 &&
-                      humidity >= 50 && humidity <= 80 &&
-                      acidity >= 5.5 && acidity <= 7.0;
-    
+    const isHealthy =
+      temperature >= 18 && temperature <= 30 &&
+      humidity >= 50 && humidity <= 80 &&
+      acidity >= 5.5 && acidity <= 7.0;
+
     return {
       image: isHealthy ? "/healthy-plant.svg" : "/sick-plant.svg",
       message: isHealthy ? "🌱 Las plantas están sanas" : "⚠️ Las plantas están en riesgo",
     };
   };
 
-  // Simular datos cada segundo durante 15 segundos
+  // ✅ Simulación de datos cada segundo durante 15 segundos
   const startSimulation = () => {
     if (isSimulating) return;
     setIsSimulating(true);
-    setAnalysis(null); // Limpiar análisis anterior
+    setAnalysis(null);
 
     let counter = 0;
     let latestData = { ...currentData };
@@ -59,7 +58,7 @@ const GreenhouseData = ({ greenhouseData }: GreenhouseDataProps) => {
       if (counter >= 15) {
         clearInterval(interval);
         setIsSimulating(false);
-        getPlantAnalysis(latestData); // Llamar análisis al finalizar
+        getPlantAnalysis(latestData);
         return;
       }
 
@@ -72,11 +71,10 @@ const GreenhouseData = ({ greenhouseData }: GreenhouseDataProps) => {
 
         latestData = { temperature: newTemperature, humidity: newHumidity, acidity: newAcidity };
 
-        // Actualizar los valores en la interfaz en tiempo real
         setCurrentData(latestData);
         const { image, message } = evaluatePlantHealth(newTemperature, newHumidity, newAcidity);
         setPlantImage(image);
-        setAnalysis(message); // Se mostrará en tiempo real
+        setAnalysis(message);
 
         return [
           ...prevData,
@@ -91,8 +89,8 @@ const GreenhouseData = ({ greenhouseData }: GreenhouseDataProps) => {
     }, 1000);
   };
 
-  // Obtener diagnóstico final con IA
-  const getPlantAnalysis = async (latestData: any) => {
+  // ✅ Obtener diagnóstico con IA
+  const getPlantAnalysis = async (latestData: { temperature: number; humidity: number; acidity: number }) => {
     try {
       const res = await fetch("/api/analyze", {
         method: "POST",
@@ -103,21 +101,17 @@ const GreenhouseData = ({ greenhouseData }: GreenhouseDataProps) => {
       const data = await res.json();
       if (data.analysis) {
         setAnalysis(data.analysis);
-        setIsModalOpen(true); // Abrir modal con el diagnóstico
-
-        // Determinar imagen según el análisis final
         const { image } = evaluatePlantHealth(latestData.temperature, latestData.humidity, latestData.acidity);
         setPlantImage(image);
       }
-    } catch (error) {
+    } catch {
       setAnalysis("Error obteniendo análisis.");
-      setIsModalOpen(true);
     }
   };
 
   return (
     <div className="w-full max-w-5xl space-y-6">
-      {/* Tarjetas de datos */}
+      {/* 📌 Tarjetas de datos */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="bg-white p-6 bg-opacity-40 rounded-lg shadow-md text-center">
           <p className="text-lg font-semibold">🌡️ Temperatura</p>
@@ -133,7 +127,7 @@ const GreenhouseData = ({ greenhouseData }: GreenhouseDataProps) => {
         </div>
       </div>
 
-      {/* Estado de la Planta */}
+      {/* 📌 Estado de la Planta */}
       <div className="bg-white bg-opacity-70 shadow-lg rounded-lg p-6 flex flex-col items-center">
         <img src={plantImage} alt="Estado de la planta" className="w-auto h-40 sm:h-52 object-contain" />
         <p className={`text-lg font-semibold mt-3 ${analysis?.includes("sanas") ? "text-green-600" : "text-red-500"}`}>
@@ -141,7 +135,7 @@ const GreenhouseData = ({ greenhouseData }: GreenhouseDataProps) => {
         </p>
       </div>
 
-      {/* Gráfica de Sensores */}
+      {/* 📌 Gráfica de Sensores */}
       <div className="bg-white p-6 rounded-lg shadow-md bg-opacity-80">
         <h2 className="text-xl font-bold text-gray-800 text-center mb-4">Evolución de Variables</h2>
         <ResponsiveContainer width="100%" height={300}>
@@ -158,7 +152,7 @@ const GreenhouseData = ({ greenhouseData }: GreenhouseDataProps) => {
         </ResponsiveContainer>
       </div>
 
-      {/* Botón para Simular Datos */}
+      {/* 📌 Botón para Simular Datos */}
       <div className="flex justify-center">
         <button
           onClick={startSimulation}

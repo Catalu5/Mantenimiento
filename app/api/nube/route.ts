@@ -3,6 +3,11 @@ import User from "@/models/User";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
+// 📌 Definir la estructura esperada del token
+interface DecodedToken {
+  userId: string;
+}
+
 export async function GET(req: Request) {
   try {
     await connectDB();
@@ -14,7 +19,9 @@ export async function GET(req: Request) {
     }
 
     const token = authHeader.split(" ")[1];
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+
+    // 📌 Usar la interfaz en lugar de "any"
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken;
 
     const user = await User.findById(decoded.userId);
     if (!user) {
