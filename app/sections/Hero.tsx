@@ -10,7 +10,7 @@ export default function Hero() {
       {/* Contenido principal del Hero */}
       <div className="container pt-32 px-4 md:mx-28 items-center justify-center h-full">
         {/* ... tu contenido del hero ... */}
-        <div className="flex flex-col lg:flex-row items-center justify-between h-full -mt-6">
+        <div className="flex flex-col lg:flex-row items-center justify-between h-full mt-5">
           <div className="lg:w-1/2 lg:text-left text-center">
             <h1 className="text-6xl font-bold mb-2 lg:mb-8 ml-3">
               Optimiza tu <br />
@@ -26,7 +26,7 @@ export default function Hero() {
           </div>
 
           {/* Imagen del Hero */}
-          <div className="hidden lg:w-1/2 lg:flex lg:justify-center lg:items-center left-10">
+          <div className="hidden lg:w-1/2 lg:flex lg:justify-center lg:items-center">
             <Image
               src="/mante.png"
               alt="Invernadero Inteligente"
@@ -39,7 +39,7 @@ export default function Hero() {
       </div>
 
       {/* Contenedor ABSOLUTO para las tarjetas */}
-      <div className="absolute w-full bottom-0 left-0 transform translate-y-3/4">
+      <div className="absolute w-full bottom-0 left-0 transform translate-y-full">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Tarjeta 1 */}

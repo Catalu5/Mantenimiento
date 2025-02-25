@@ -13,7 +13,7 @@ export default function About() {
         <div>
           <h2 className="text-6xl font-bold text-white mb-6">
             <span className='text-blue-600'>Sobre</span> InverCloud 
-            <span className='text-green-400'> Solutions</span> 
+            <span className='text-black'> Solutions</span> 
             </h2>
           <p className="text-lg text-black leading-relaxed">
             Nos especializamos en <span className="text-blue-600 font-semibold">mantenimiento predictivo </span>
