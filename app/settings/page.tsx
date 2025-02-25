@@ -12,13 +12,10 @@ const SettingsPage = () => {
     if (!isAuthenticated) {
       router.push("/auth");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, router]); // Se agregó `router` a la lista de dependencias
 
   // ✅ Estados para manejar los cambios
   const [name, setName] = useState(user?.name || "");
-  const [email, setEmail] = useState(user?.email || "");
-  const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md pt-56">
@@ -40,7 +37,7 @@ const SettingsPage = () => {
           <span className="text-gray-700">Correo Electrónico</span>
           <input
             type="email"
-            value={email}
+            value={user?.email || ""}
             readOnly
             className="w-full px-4 py-2 border bg-gray-200 rounded-lg cursor-not-allowed"
           />
@@ -53,9 +50,6 @@ const SettingsPage = () => {
         >
           Guardar Cambios
         </button>
-
-        {/* Mensaje de éxito */}
-        {successMessage && <p className="text-green-600">{successMessage}</p>}
       </div>
     </div>
   );
