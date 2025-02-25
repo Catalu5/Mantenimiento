@@ -1,8 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import GreenhouseData from "../components/GreenhouseData";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 // Definir la estructura de los datos del usuario
 type UserData = {
@@ -69,37 +78,61 @@ const NubePage = () => {
     return (
       <div className="min-h-screen flex flex-col items-center bg-gradient-to-b from-green-500 to-blue-400 p-6 pt-36">
         <h1 className="text-4xl font-bold text-white">Análisis en la Nube</h1>
-        <p className="text-white mt-2 text-lg">Visualiza en tiempo real los datos de tus sensores y mejora la eficiencia de tu invernadero.</p>
+        <p className="text-white mt-2 text-lg">
+          Visualiza en tiempo real los datos de tus sensores y mejora la
+          eficiencia de tu invernadero.
+        </p>
 
         {/* Tarjetas informativas */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl mt-8">
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
             <span className="text-4xl text-green-500">☁️</span>
             <h2 className="text-xl font-semibold mt-2">Datos en la Nube</h2>
-            <p className="text-gray-600 mt-2">Todos los datos de tus sensores se almacenan y analizan en la nube en tiempo real.</p>
+            <p className="text-gray-600 mt-2">
+              Todos los datos de tus sensores se almacenan y analizan en la nube
+              en tiempo real.
+            </p>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
             <span className="text-4xl text-blue-500">📊</span>
-            <h2 className="text-xl font-semibold mt-2">Gráficos en Tiempo Real</h2>
-            <p className="text-gray-600 mt-2">Visualiza tendencias y patrones de datos con gráficos interactivos.</p>
+            <h2 className="text-xl font-semibold mt-2">
+              Gráficos en Tiempo Real
+            </h2>
+            <p className="text-gray-600 mt-2">
+              Visualiza tendencias y patrones de datos con gráficos
+              interactivos.
+            </p>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
             <span className="text-4xl text-purple-500">🤖</span>
-            <h2 className="text-xl font-semibold mt-2">Optimización Inteligente</h2>
-            <p className="text-gray-600 mt-2">Nuestra tecnología de machine learning te ayuda a tomar mejores decisiones.</p>
+            <h2 className="text-xl font-semibold mt-2">
+              Optimización Inteligente
+            </h2>
+            <p className="text-gray-600 mt-2">
+              Nuestra tecnología de machine learning te ayuda a tomar mejores
+              decisiones.
+            </p>
           </div>
         </div>
 
         {/* Gráfica de ejemplo */}
         <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl mt-8">
-          <h2 className="text-xl font-bold text-gray-800 text-center mb-4">Gráfica de Sensores</h2>
+          <h2 className="text-xl font-bold text-gray-800 text-center mb-4">
+            Gráfica de Sensores
+          </h2>
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={sampleData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="time" />
               <YAxis domain={[10, 50]} />
               <Tooltip />
-              <Line type="monotone" dataKey="value" stroke="#34D399" strokeWidth={3} dot={{ r: 5 }} />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#34D399"
+                strokeWidth={3}
+                dot={{ r: 5 }}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -120,19 +153,24 @@ const NubePage = () => {
     <div className="min-h-screen flex flex-col items-center bg-gradient-to-b from-green-500 to-blue-400 p-6 pt-36 space-y-10">
       {/* Sección de Bienvenida */}
       <div className="bg-white bg-opacity-50 p-6 rounded-lg shadow-lg w-full max-w-3xl text-center">
-        <img
+        <Image
           src={userData?.profileImage || "/default-avatar.png"}
           alt="Perfil"
+          width={64}
+          height={64}
           className="w-16 h-16 rounded-full mx-auto mb-2 border border-gray-300"
         />
-        <h1 className="text-3xl font-bold text-gray-800">Análisis en la Nube</h1>
-        <p className="text-gray-600">Bienvenido, <span className="font-semibold">{userData?.email}</span></p>
+        <h1 className="text-3xl font-bold text-gray-800">
+          Análisis en la Nube
+        </h1>
+        <p className="text-gray-600">
+          Bienvenido, <span className="font-semibold">{userData?.email}</span>
+        </p>
       </div>
       {/* Componente con datos del invernadero */}
       {userData && userData.greenhouseData && (
         <GreenhouseData greenhouseData={userData.greenhouseData} />
       )}
-
     </div>
   );
 };
