@@ -6,7 +6,7 @@ import Team from "./Team";
 
 export default function About() {
   return (
-    <section className="bg-gradient-to-b from-[#27ae60] to-blue-400 text-white py-20 px-6 md:px-20 lg:px-40 flex flex-col items-center">
+    <section className="bg-gradient-to-b from-green-500 to-blue-400 text-white py-20 px-6 md:px-20 lg:px-40 flex flex-col items-center">
       {/* Contenedor Principal */}
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center mt-28">
         {/* Texto sobre la empresa */}

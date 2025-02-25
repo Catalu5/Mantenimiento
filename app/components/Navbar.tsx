@@ -24,7 +24,7 @@ const Header = () => {
 
       {/* Navegación en escritorio */}
       <nav className="hidden md:flex space-x-6">
-        {[{ name: "Inicio", href: "/" }, { name: "Nuestras Soluciones", href: "/lessons" }, { name: "Nosotros", href: "/about" }, { name: "Análisis en la Nube", href: "/nube" }].map((item) => (
+        {[{ name: "Inicio", href: "/" }, { name: "Nuestras Soluciones", href: "/soluciones" }, { name: "Nosotros", href: "/about" }, { name: "Análisis en la Nube", href: "/nube" }].map((item) => (
           <Link key={item.href} href={item.href} className={`font-medium transition ${pathname === item.href ? "text-blue-400 font-bold" : "text-green-500"}`}>
             {item.name}
           </Link>
@@ -39,7 +39,7 @@ const Header = () => {
       {/* Menú desplegable en móvil */}
       {mobileMenuOpen && (
         <div className="absolute top-20 left-1/2 transform -translate-x-1/2 w-[85%] bg-white shadow-lg rounded-lg p-5 flex flex-col items-center space-y-4 md:hidden">
-          {[{ name: "Inicio", href: "/" }, { name: "Nuestras Soluciones", href: "/lessons" }, { name: "Nosotros", href: "/about" }, { name: "Análisis en la Nube", href: "/nube" }].map((item) => (
+          {[{ name: "Inicio", href: "/" }, { name: "Nuestras Soluciones", href: "/soluciones" }, { name: "Nosotros", href: "/about" }, { name: "Análisis en la Nube", href: "/nube" }].map((item) => (
             <Link key={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)} className="font-medium transition text-green-500">
               {item.name}
             </Link>
@@ -68,7 +68,7 @@ const Header = () => {
         {isAuthenticated ? (
           <div className="relative">
             <Image 
-              src={user?.profileImage || "/default-avatar.png"} 
+              src={user?.profileImage || "/Default-avatar.png"} 
               alt="Perfil" 
               width={40} 
               height={40} 

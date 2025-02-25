@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function Hero() {
   return (
     // Hero con altura fija o mínima, y posición relative para poder superponer
-    <section className="relative bg-gradient-to-b from-[#27ae60] to-blue-400 text-white h-[600px]">
+    <section className="relative bg-gradient-to-b from-[#27ae60] to-blue-400 text-white ">
       {/* Contenido principal del Hero */}
       <div className="container pt-32 px-4 md:mx-28 items-center justify-center h-full">
         {/* ... tu contenido del hero ... */}
