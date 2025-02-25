@@ -8,7 +8,7 @@ export default function Body() {
     <section className=" bg-gradient-to-b from-blue-400 to-white text-black relative justify-center items-center h-screen overflow-hidden">
       {/* Contenedor principal */}
       <div className="container lg:pt-56 px-4 md:mx-28 items-center justify-center relative h-full -mt-24">
-        <div className="flex flex-col lg:flex-row items-center justify-between h-full">
+      <div className="flex flex-col lg:flex-row items-center justify-between w-full px-4 sm:px-8 md:px-12">
           {/* Contenedor del título y subtítulo */}
           <div className="lg:w-1/2 lg:text-left text-center">
             {/* Título */}

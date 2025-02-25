@@ -7,9 +7,9 @@ export default function Ventajas() {
   return (
     <section className="bg-white py-16">
       <div className="container mx-auto px-4 flex flex-col-reverse lg:flex-row items-center gap-8">
-        
+      <div className="flex flex-col lg:flex-row items-center justify-between w-full px-4 sm:px-8 md:px-12">
         {/* Sección de texto */}
-        <div className="ml-28 overflow-x-auto -mt-36">
+        <div className="ml-28 overflow-x-auto -mt-32">
           <h2 className="text-6xl font-bold mb-8 leading-tight">
             {/* Bloque 1 (línea 1) con whitespace-nowrap */}
             <span className="whitespace-nowrap text-blue-600">
@@ -63,6 +63,7 @@ export default function Ventajas() {
             />
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

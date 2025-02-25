@@ -24,7 +24,7 @@ const Header = () => {
 
       {/* Navegación en escritorio */}
       <nav className="hidden md:flex space-x-6">
-        {[{ name: "Inicio", href: "/" }, { name: "Nuestras Soluciones", href: "/soluciones" }, { name: "Nosotros", href: "/about" }, { name: "Análisis en la Nube", href: "/nube" }].map((item) => (
+        {[{ name: "Inicio", href: "/sections" }, { name: "Nuestras Soluciones", href: "/soluciones" }, { name: "Nosotros", href: "/about" }, { name: "Análisis en la Nube", href: "/nube" }].map((item) => (
           <Link key={item.href} href={item.href} className={`font-medium transition ${pathname === item.href ? "text-blue-400 font-bold" : "text-green-500"}`}>
             {item.name}
           </Link>

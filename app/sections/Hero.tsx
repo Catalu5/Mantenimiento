@@ -10,7 +10,7 @@ export default function Hero() {
       {/* Contenido principal del Hero */}
       <div className="container pt-32 px-4 md:mx-28 items-center justify-center h-full">
         {/* ... tu contenido del hero ... */}
-        <div className="flex flex-col lg:flex-row items-center justify-between h-full mt-5">
+        <div className="flex flex-col lg:flex-row items-center justify-between w-full px-4 sm:px-8 md:px-12">
           <div className="lg:w-1/2 lg:text-left text-center">
             <h1 className="text-6xl font-bold mb-2 lg:mb-8 ml-3">
               Optimiza tu <br />
