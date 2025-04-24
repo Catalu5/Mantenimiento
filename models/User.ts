@@ -11,6 +11,7 @@ export interface IUser extends Document {
     acidity: number;
     nutrients: string;
   };
+  fireid?: string;   // 👈 Asegúrate que esté en la interfaz también
 }
 
 const UserSchema = new Schema<IUser>({
@@ -24,6 +25,7 @@ const UserSchema = new Schema<IUser>({
     acidity: { type: Number, default: Math.random() * 3 + 4 },
     nutrients: { type: String, default: "NPK balanceado" },
   },
+  fireid: { type: String },   // 🔥 Aquí debe estar
 });
 
 export default mongoose.models.User || mongoose.model<IUser>("User", UserSchema);

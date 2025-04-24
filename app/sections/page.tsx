@@ -1,8 +1,8 @@
 "use client";
 
-import Hero from "./sections/Hero";
-import Body from "./sections/Body";
-import Ventajas from "./sections/Ventajas";
+import Hero from "./Hero";
+import Body from "./Body";
+import Ventajas from "./Ventajas";
 
 export default function Home() {
   return (
