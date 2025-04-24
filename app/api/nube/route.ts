@@ -26,7 +26,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 });
     }
 
-    let greenhouseData = { ...user.greenhouseData };
+    const greenhouseData = { ...user.greenhouseData };
     const fireid = user.fireid || user.get("fireid");
 
     if (fireid) {

@@ -26,8 +26,8 @@ type UserData = {
 const NubePage = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [tempData, setTempData] = useState<any[]>([]);
-  const [humidityData, setHumidityData] = useState<any[]>([]);
+  const [tempData, setTempData] = useState<{ time: string; value: number }[]>([]);
+  const [humidityData, setHumidityData] = useState<{ time: string; value: number }[]>([]);
   const router = useRouter();
 
   const fetchUserData = () => {
@@ -51,7 +51,7 @@ const NubePage = () => {
       let data;
       try {
         data = await res.json();
-      } catch (e) {
+      } catch {
         setIsAuthenticated(false);
         return;
       }
