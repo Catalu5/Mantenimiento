@@ -26,8 +26,8 @@ type UserData = {
 const NubePage = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [tempData, setTempData] = useState<any[]>([]);
-  const [humidityData, setHumidityData] = useState<any[]>([]);
+  const [tempData, setTempData] = useState<{ time: string; value: number }[]>([]);
+  const [humidityData, setHumidityData] = useState<{ time: string; value: number }[]>([]);
   const [aiResponse, setAiResponse] = useState<string>("");  // NUEVO: Estado para la respuesta de la IA
   const router = useRouter();
 
@@ -41,31 +41,37 @@ const NubePage = () => {
     fetch("/api/nube", {
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then(async (res) => {
-        if (!res.ok) {
-          setIsAuthenticated(false);
-          return;
-        }
-
-        let data;
-        try {
-          data = await res.json();
-        } catch (e) {
-          setIsAuthenticated(false);
-          return;
-        }
-
-        if (data.error) {
-          setIsAuthenticated(false);
-        } else {
-          setUserData(data);
-          const currentTime = new Date().toLocaleTimeString().slice(0, 5);
-          setTempData((prev) => [...prev.slice(-5), { time: currentTime, value: data.greenhouseData.temperature }]);
-          setHumidityData((prev) => [...prev.slice(-5), { time: currentTime, value: data.greenhouseData.humidity }]);
-          setIsAuthenticated(true);
-        }
-      })
-      .catch(() => {
+    .then(async (res) => {
+      if (!res.ok) {
+        setIsAuthenticated(false);
+        return;
+      }
+    
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        setIsAuthenticated(false);
+        return;
+      }
+    
+      if (data.error) {
+        setIsAuthenticated(false);
+      } else {
+        console.log("🌡️ Datos recibidos:", data.greenhouseData);  // 👈 Aquí
+    
+        setUserData(data);
+    
+        const currentTime = new Date().toLocaleTimeString().slice(0, 5);
+        setTempData((prev) => [...prev.slice(-5), { time: currentTime, value: data.greenhouseData.temperature }]);
+        setHumidityData((prev) => [...prev.slice(-5), { time: currentTime, value: data.greenhouseData.humidity }]);
+    
+        setIsAuthenticated(true);
+      }
+    })
+    
+      .catch((err) => {
+        console.error("Error en fetch:", err);
         setIsAuthenticated(false);
       });
   };
