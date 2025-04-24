@@ -28,12 +28,11 @@ const NubePage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [tempData, setTempData] = useState<any[]>([]);
   const [humidityData, setHumidityData] = useState<any[]>([]);
+  const [aiResponse, setAiResponse] = useState<string>("");  // NUEVO: Estado para la respuesta de la IA
   const router = useRouter();
 
   const fetchUserData = () => {
     const token = localStorage.getItem("token");
-    console.log("TOKEN:", token);  // Verifica que el token exista
-
     if (!token) {
       setIsAuthenticated(false);
       return;
@@ -42,40 +41,33 @@ const NubePage = () => {
     fetch("/api/nube", {
       headers: { Authorization: `Bearer ${token}` },
     })
-    .then(async (res) => {
-      if (!res.ok) {
-        setIsAuthenticated(false);
-        return;
-      }
-    
-      let data;
-      try {
-        data = await res.json();
-      } catch (e) {
-        setIsAuthenticated(false);
-        return;
-      }
-    
-      if (data.error) {
-        setIsAuthenticated(false);
-      } else {
-        console.log("🌡️ Datos recibidos:", data.greenhouseData);  // 👈 Aquí
-    
-        setUserData(data);
-    
-        const currentTime = new Date().toLocaleTimeString().slice(0, 5);
-        setTempData((prev) => [...prev.slice(-5), { time: currentTime, value: data.greenhouseData.temperature }]);
-        setHumidityData((prev) => [...prev.slice(-5), { time: currentTime, value: data.greenhouseData.humidity }]);
-    
-        setIsAuthenticated(true);
-      }
-    })
-    
-      .catch((err) => {
-        console.error("Error en fetch:", err);
+      .then(async (res) => {
+        if (!res.ok) {
+          setIsAuthenticated(false);
+          return;
+        }
+
+        let data;
+        try {
+          data = await res.json();
+        } catch (e) {
+          setIsAuthenticated(false);
+          return;
+        }
+
+        if (data.error) {
+          setIsAuthenticated(false);
+        } else {
+          setUserData(data);
+          const currentTime = new Date().toLocaleTimeString().slice(0, 5);
+          setTempData((prev) => [...prev.slice(-5), { time: currentTime, value: data.greenhouseData.temperature }]);
+          setHumidityData((prev) => [...prev.slice(-5), { time: currentTime, value: data.greenhouseData.humidity }]);
+          setIsAuthenticated(true);
+        }
+      })
+      .catch(() => {
         setIsAuthenticated(false);
       });
-    
   };
 
   useEffect(() => {
@@ -86,6 +78,33 @@ const NubePage = () => {
 
   const simularPH = (phBase: number) => {
     return (phBase + (Math.random() * 0.2 - 0.1)).toFixed(2);
+  };
+
+  // 🚨 NUEVO: Función para analizar con IA
+  const analizarConIA = async () => {
+    const planta = prompt("¿Qué tipo de planta estás monitoreando? (Ej: Lengua de Vaca)");
+    if (!planta) return alert("Debes ingresar el tipo de planta.");
+
+    const datos = {
+      temperature: tempData[tempData.length - 1]?.value,
+      humidity: humidityData[humidityData.length - 1]?.value,
+      acidity: userData?.greenhouseData.acidity,
+      planta: planta
+    };
+
+    try {
+      const res = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datos)
+      });
+
+      const result = await res.json();
+      setAiResponse(result.analysis);
+    } catch (err) {
+      console.error("Error al consultar la IA:", err);
+      alert("Error al analizar con IA");
+    }
   };
 
   if (isAuthenticated === null) {
@@ -103,7 +122,6 @@ const NubePage = () => {
         <p className="text-white mt-2 text-lg">
           Visualiza en tiempo real los datos de tus sensores y mejora la eficiencia de tu invernadero.
         </p>
-        {/* Aquí puedes dejar las tarjetas y gráfica de ejemplo */}
         <button
           className="mt-8 bg-white text-green-600 font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-gray-200 transition"
           onClick={() => router.push("/auth")}
@@ -162,6 +180,22 @@ const NubePage = () => {
           </LineChart>
         </ResponsiveContainer>
       </div>
+
+      {/* 🚨 Botón para análisis con IA */}
+      <button
+        onClick={analizarConIA}
+        className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition"
+      >
+        Analizar con IA
+      </button>
+
+      {/* Mostrar la respuesta de la IA */}
+      {aiResponse && (
+        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl">
+          <h2 className="text-xl font-bold text-gray-800 text-center mb-4">Recomendación de la IA</h2>
+          <p className="text-gray-600 text-center">{aiResponse}</p>
+        </div>
+      )}
     </div>
   );
 };

@@ -2,26 +2,26 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { temperature, humidity, acidity } = await req.json();
+    const { temperature, humidity, acidity, planta } = await req.json();
 
     // Validar datos
-    if (!temperature || !humidity || !acidity) {
-      return NextResponse.json({ error: "Faltan datos de la planta" }, { status: 400 });
+    if (!temperature || !humidity || !acidity || !planta) {
+      return NextResponse.json({ error: "Faltan datos para el análisis" }, { status: 400 });
     }
 
     // Construir el prompt para OpenAI
     const prompt = `
-      Soy un experto en el cuidado de plantas en invernaderos. 
-      Los últimos datos registrados son:
-      - Temperatura: ${temperature}°C
-      - Humedad: ${humidity}%
-      - Acidez del suelo: pH ${acidity}
+Eres un experto en botánica especializada en invernaderos. Estás monitoreando una planta del tipo "${planta}".
 
-      Analiza estos datos y brinda un diagnóstico detallado de la salud de la planta.
-      Explica si está en buen estado o en riesgo y da recomendaciones para mejorar su salud.
+Los últimos datos registrados son:
+- Temperatura: ${temperature}°C
+- Humedad: ${humidity}%
+- pH del suelo: ${acidity}
 
-      Responde de manera **corta y concisa** en **una sola oración** sobre el estado de la planta. Usa un máximo de **50 palabras**.
-    `;
+Con base en las condiciones óptimas conocidas para la planta "${planta}", proporciona un diagnóstico corto de su estado actual. Explica si está en buen estado o en riesgo y da una recomendación específica.
+
+Responde en **una sola oración**, de forma técnica y clara, usando máximo **50 palabras**.
+`;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -31,8 +31,8 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model: "gpt-4",
-        messages: [{ role: "system", content: prompt }],
-        max_tokens: 300,
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 150,
       }),
     });
 
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ analysis });
   } catch (error) {
-    console.error("Error en la API de análisis:", error); // ✅ Registra el error en la consola
+    console.error("Error en la API de análisis:", error);
     return NextResponse.json({ error: "Error generando el análisis" }, { status: 500 });
   }
 }
